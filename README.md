@@ -13,10 +13,16 @@ This repository contains implementations of various tokenization techniques, fro
 ## Getting Started
 
 1. Clone this repository:
-2. Install the required dependencies:
-3. Explore the `src/` directory for tokenizer implementations.
-4. Run examples from the `examples/` directory to see the tokenizers in action.
-5. Check out the `tests/` directory for unit tests of each tokenizer.
+   ```bash
+   git clone https://github.com/verdugo-danieML/Tokenizer-Tutorial.git
+   ```
+3. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. Explore the `src/` directory for tokenizer implementations.
+6. Run examples from the `examples/` directory to see the tokenizers in action.
+7. Check out the `tests/` directory for unit tests of each tokenizer.
 
 ## Usage
 
@@ -30,3 +36,13 @@ tokenizer.train("Your training text goes here.")
 encoded = tokenizer.encode("Text to encode")
 decoded = tokenizer.decode(encoded)
 ```
+Replace WhitespaceTokenizer with the tokenizer of your choice.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
