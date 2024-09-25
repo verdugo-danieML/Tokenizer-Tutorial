@@ -39,7 +39,7 @@ Tokenizer-Tutorial/
 1. Clone this repository:
    ```
    git clone https://github.com/verdugo-danieML/Tokenizer-Tutorial.git
-   cd custom-tokenizers
+   cd Tokenizer-Tutorial
    ```
 
 2. Install the required dependencies:
