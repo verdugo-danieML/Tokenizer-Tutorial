@@ -32,6 +32,7 @@ tokenizers/
 ├── main.py
 ├── requirements.txt
 └── README.md
+```
 
 ## Installation
 
