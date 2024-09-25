@@ -1,0 +1,40 @@
+In the year 2023, scientists made groundbreaking discoveries.
+The population reached 7.9billion people worldwide.
+The temperature was a scorching 38.5 degrees Celsius.
+
+Economic data:
+GDP growth: 3.2%
+Inflation rate: 2.1 percent
+Unemployment: 5.7%
+    
+Distances:
+Earth to Moon: 384,400 km
+New York to Los Angeles: 3,935miles
+Diameter of Jupiter: 142,984km
+    
+In sports:
+The 100m sprint record: 9.58 seconds
+Marathon world record: 2h 1min 39sec
+    
+Miscellaneous facts:
+Pi: 3.14159
+Speed of light: 299792458 m/s
+Avogadro's number: 6.022e23
+    
+Prices:
+A cup of coffee: $3.50
+Gallon of gas: $3.25
+Bitcoin value: $30,000
+    
+Large numbers:
+World population in 1900: 1650000000
+Grains of sand on Earth: 7,500,000,000,000,000,000
+    
+Dates and times:
+The meeting is scheduled for 15:30 on 22/07/2023.
+Classes run from 9am to 3pm, Monday to Friday.
+    
+This text contains numbers in various formats: with spaces, without spaces,
+with decimal points, percentages, and in scientific notation.
+
+This is an example of the RegexTokenizer in action! It can handle punctuation, numbers like 42, and contractions (e.g., don't, we'll).
