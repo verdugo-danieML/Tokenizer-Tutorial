@@ -5,7 +5,7 @@ This repository contains implementations of various tokenization techniques from
 ## Project Structure
 
 ```
-tokenizers/
+Tokenizer-Tutorial/
 │
 ├── data/
 │ └── corpus/
