@@ -1,48 +1,96 @@
 # Tokenizer Tutorial: From Basic to Advanced
 
-This repository contains implementations of various tokenization techniques, from simple whitespace tokenization to more advanced methods like Byte Pair Encoding (BPE). It serves as a practical guide to understanding and implementing different tokenization strategies used in Natural Language Processing (NLP).
+This repository contains implementations of various tokenization techniques from scratch, including Whitespace, Regex, Byte-Pair Encoding (BPE), and integrates with Hugging Face and SentencePiece tokenizers.
 
-## Tokenizers Included:
+## Project Structure
 
-1. Whitespace Tokenizer
-2. Basic Regex Tokenizer
-3. Advanced Regex Tokenizer (with GPT-2 and GPT-4 inspired patterns)
-4. Basic BPE (Byte Pair Encoding) Tokenizer
-5. Advanced BPE Tokenizer (with pre-tokenization and post-processing)
+```
+tokenizers/
+│
+├── data/
+│ └── corpus/
+│ ├── text_1.txt
+│ ├── text_2.txt
+│ └── text_3.txt
+│
+├── src/
+│ ├── init.py
+│ ├── utils.py
+│ ├── whitespace_tokenizer.py
+│ ├── regex_tokenizer.py
+│ ├── bpe_tokenizer.py
+│ ├── custom_hf_tokenizer.py
+│ └── custom_sp_tokenizer.py
+│
+├── examples/
+│ ├── whitespace_tokenizer_example.py
+│ ├── regex_tokenizer_example.py
+│ ├── bpe_tokenizer_example.py
+│ ├── transformers_tokenizer_example.py
+│ └── sentencepiece_tokenizer_example.py
+│
+├── main.py
+├── requirements.txt
+└── README.md
 
-## Getting Started
+## Installation
 
 1. Clone this repository:
-   ```bash
-   git clone https://github.com/verdugo-danieML/Tokenizer-Tutorial.git
    ```
-3. Install the required dependencies:
-   ```bash
+   git clone https://github.com/yourusername/custom-tokenizers.git
+   cd custom-tokenizers
+   ```
+
+2. Install the required dependencies:
+   ```
    pip install -r requirements.txt
    ```
-5. Explore the `src/` directory for tokenizer implementations.
-6. Run examples from the `examples/` directory to see the tokenizers in action.
-7. Check out the `tests/` directory for unit tests of each tokenizer.
 
 ## Usage
 
-Each tokenizer can be used as follows:
+You can use the `main.py` script to train and use different tokenizers:
 
-```python
-from src.whitespace_tokenizer import WhitespaceTokenizer
-
-tokenizer = WhitespaceTokenizer()
-tokenizer.train("Your training text goes here.")
-encoded = tokenizer.encode("Text to encode")
-decoded = tokenizer.decode(encoded)
 ```
-Replace WhitespaceTokenizer with the tokenizer of your choice.
+ python main.py <tokenizer_type> <operation> [--vocab_file VOCAB_FILE] [--sample_text SAMPLE_TEXT]
+```
+- `<tokenizer_type>`: Choose from `whitespace`, `regex`, `bpe`, `hf` (Hugging Face), or `sp` (SentencePiece).
+- `<operation>`: Choose `train` to train a new tokenizer or `use` to use a pre-trained tokenizer.
+- `--vocab_file`: Specify the path to save/load the vocabulary file (default: vocab.txt).
+- `--sample_text`: Provide a sample text for tokenization when using a pre-trained tokenizer.
+
+### Example usage:
+
+train:
+```
+ python main.py bpe train --vocab_file bpe_vocab.txt
+```
+use:
+```
+ python main.py bpe use --vocab_file bpe_vocab.txt --sample_text "This is a test sentence."
+```
+
+You can also run individual example scripts to see how each tokenizer works:
+
+```
+python -m examples.whitespace_tokenizer_example
+python -m examples.regex_tokenizer_example
+python -m examples.bpe_tokenizer_example
+python -m examples.transformers_tokenizer_example
+python -m examples.sentencepiece_tokenizer_example
+```
+
+## Tokenizer Types
+
+1. **Whitespace Tokenizer**: Splits text on whitespace.
+2. **Regex Tokenizer**: Uses regular expressions for flexible tokenization.
+3. **BPE (Byte-Pair Encoding) Tokenizer**: Implements the BPE algorithm for subword tokenization.
+4. **Custom Hugging Face Tokenizer**: Integrates with the Hugging Face tokenizers library.
+5. **Custom SentencePiece Tokenizer**: Integrates with the SentencePiece library.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Feel free to submit issues or pull requests if you have suggestions for improvements or find any bugs.
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
+This project is open-source and available under the MIT License.
