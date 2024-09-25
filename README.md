@@ -38,7 +38,7 @@ Tokenizer-Tutorial/
 
 1. Clone this repository:
    ```
-   git clone https://github.com/yourusername/custom-tokenizers.git
+   git clone https://github.com/verdugo-danieML/Tokenizer-Tutorial.git
    cd custom-tokenizers
    ```
 
