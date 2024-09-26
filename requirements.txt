@@ -4,3 +4,4 @@ regex==2023.6.3
 transformers==4.29.2
 tokenizers==0.13.3
 sentencepiece==0.1.99
+flask==2.0.1
