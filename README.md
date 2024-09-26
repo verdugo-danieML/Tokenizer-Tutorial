@@ -32,6 +32,16 @@ Tokenizer-Tutorial/
 ├── templates/
 │ └── index.html
 │
+├── trained_vocabs/
+│ ├── bpe_vocab.txt
+│ ├── custom_tokenizer.json
+│ ├── regex_vocab_basic.txt
+│ ├── regex_vocab_gpt2.txt
+│ ├── regex_vocab_gpt4.txt
+│ ├── regex_vocab_improved.txt
+│ ├── spm_model.model
+│ └── whitespace_vocab.txt
+│
 ├── app.py
 ├── main.py
 ├── requirements.txt
