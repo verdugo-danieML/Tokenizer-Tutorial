@@ -32,6 +32,8 @@ def main():
     parser.add_argument("operation", choices=["train", "use"], help="Operation to perform")
     parser.add_argument("--vocab_file", default="vocab.txt", help="Vocabulary file name")
     parser.add_argument("--sample_text", default="This is a sample text.", help="Sample text for tokenization")
+    parser.add_argument("--train_file", help="Path to the file containing training data")
+    
     args = parser.parse_args()
 
     tokenizer_map = {
@@ -45,10 +47,16 @@ def main():
     tokenizer_class = tokenizer_map[args.tokenizer]
     
     if args.operation == "train":
-        corpus_dir = os.path.join("data", "corpus")
+        if not args.train_file:
+            raise ValueError("--train_file must be specified when using the 'train' operation")
+        
         tokenizer = tokenizer_class()
-        train_and_save_tokenizer(tokenizer, corpus_dir, args.vocab_file)
+        train_and_save_tokenizer(tokenizer, args.train_file, args.vocab_file)
+
     elif args.operation == "use":
+        if not os.path.exists(args.vocab_file):
+            raise ValueError(f"Vocabulary file {args.vocab_file} does not exist. Train the tokenizer first.")
+        
         load_and_use_tokenizer(tokenizer_class, args.vocab_file, args.sample_text)
 
 if __name__ == "__main__":
