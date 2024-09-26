@@ -1,6 +1,6 @@
 # Tokenizer Tutorial: From Basic to Advanced
 
-This repository contains implementations of various tokenization techniques from scratch, including Whitespace, Regex, Byte-Pair Encoding (BPE), and integrates with Hugging Face and SentencePiece tokenizers.
+This project implements various tokenization techniques from scratch, including Whitespace, Regex, Byte-Pair Encoding (BPE), and integrates with Hugging Face and SentencePiece tokenizers. It also includes a web application for visualizing and comparing different tokenization methods.
 
 ## Project Structure
 
@@ -29,6 +29,10 @@ Tokenizer-Tutorial/
 │ ├── transformers_tokenizer_example.py
 │ └── sentencepiece_tokenizer_example.py
 │
+├── templates/
+│ └── index.html
+│
+├── app.py
 ├── main.py
 ├── requirements.txt
 └── README.md
@@ -79,6 +83,24 @@ python -m examples.bpe_tokenizer_example
 python -m examples.transformers_tokenizer_example
 python -m examples.sentencepiece_tokenizer_example
 ```
+## Web Application
+
+To run the web app for visualizing tokenizers:
+
+1. Ensure you have installed all required dependencies.
+
+2. Run the Flask app:
+   ```
+   python app.py
+   ```
+
+3. Open a web browser and go to `http://localhost:5000`
+
+4. Use the web interface to:
+   - Tokenize text using multiple tokenizers simultaneously
+   - Compare tokenization results side-by-side
+   - View token frequencies
+   - Train tokenizers on custom corpora by uploading text files
 
 ## Tokenizer Types
 
