@@ -68,11 +68,11 @@ python main.py <tokenizer_type> <operation> [--vocab_file VOCAB_FILE] [--sample_
 
 1. Training a tokenizer:
 ```
- python main.py bpe train --vocab_file "trained_vocabs\bpe_vocab.txt" --train_file "data/corpus/"
+ python main.py bpe train --vocab_file trained_vocabs/bpe_vocab.txt --train_file data/corpus/
 ```
 use:
 ```
- python main.py bpe use --vocab_file "trained_vocabs\bpe_vocab.txt" --sample_text "This is a test sentence."
+ python main.py bpe use --vocab_file trained_vocabs/bpe_vocab.txt --sample_text "This is a test sentence."
 ```
 
 You can also run individual example scripts to see how each tokenizer works:
