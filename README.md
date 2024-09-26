@@ -56,22 +56,23 @@ Tokenizer-Tutorial/
 You can use the `main.py` script to train and use different tokenizers:
 
 ```
- python main.py <tokenizer_type> <operation> [--vocab_file VOCAB_FILE] [--sample_text SAMPLE_TEXT]
+python main.py <tokenizer_type> <operation> [--vocab_file VOCAB_FILE] [--sample_text SAMPLE_TEXT] [--train_file TRAIN_FILE]
 ```
 - `<tokenizer_type>`: Choose from `whitespace`, `regex`, `bpe`, `hf` (Hugging Face), or `sp` (SentencePiece).
 - `<operation>`: Choose `train` to train a new tokenizer or `use` to use a pre-trained tokenizer.
 - `--vocab_file`: Specify the path to save/load the vocabulary file (default: vocab.txt).
 - `--sample_text`: Provide a sample text for tokenization when using a pre-trained tokenizer.
+- `--train_file`: Specify the path to the file containing training data when training a new tokenizer.
 
 ### Example usage:
 
-train:
+1. Training a tokenizer:
 ```
- python main.py bpe train --vocab_file bpe_vocab.txt
+ python main.py bpe train --vocab_file "trained_vocabs\bpe_vocab.txt" --train_file "data/corpus/"
 ```
 use:
 ```
- python main.py bpe use --vocab_file bpe_vocab.txt --sample_text "This is a test sentence."
+ python main.py bpe use --vocab_file "trained_vocabs\bpe_vocab.txt" --sample_text "This is a test sentence."
 ```
 
 You can also run individual example scripts to see how each tokenizer works:
