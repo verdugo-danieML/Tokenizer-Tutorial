@@ -78,7 +78,7 @@ python main.py <tokenizer_type> <operation> [--vocab_file VOCAB_FILE] [--sample_
 
 1. Training a tokenizer:
 ```
- python main.py bpe train --vocab_file trained_vocabs/bpe_vocab.txt --train_file data/corpus/
+ python main.py bpe train --vocab_file trained_vocabs/bpe_vocab --train_file data/corpus/
 ```
 use:
 ```
