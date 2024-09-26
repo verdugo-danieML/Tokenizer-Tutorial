@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokenizer Visualizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea {
+            width: 98%;
+            height: 100px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .tokenizer-results {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .tokenizer-result {
+            flex: 1 1 calc(50% - 10px);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .tokenizer-checkbox {
+            margin-right: 15px;
+            display: inline-block;
+        }
+        .section {
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .tokenizer-options {
+            margin-bottom: 15px;
+        }
+        .result-item {
+            margin-bottom: 10px;
+        }
+        .result-item strong {
+            color: #555;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .horizontal-scroll {
+            white-space: nowrap;
+            overflow-x: auto;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            max-width: 100%;
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .frequency-table-container {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .frequency-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .frequency-table th,
+        .frequency-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .frequency-table th {
+            background-color: #f2f2f2;
+            position: sticky;
+            top: 0;
+        }
+        .frequency-table tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+        .frequency-table tr:hover {
+            background-color: #e8e8e8;
+        }
+        .colored-decoded {
+            line-height: 1.6;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .colored-decoded span {
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin: 0 1px;
+        }
+        .unk-token {
+            background-color: #ffcccb;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin: 0 1px;
+        }
+        .drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 20px;
+            width: 96%;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .drop-area.highlight {
+            border-color: #4CAF50;
+            background-color: #e8f5e9;
+        }
+        
+        select#train-tokenizer {
+            width: 15%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 14px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 20px;
+        }
+
+        select#train-tokenizer:hover {
+            border-color: #4CAF50;
+        }
+
+        select#train-tokenizer:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <h1>Tokenizer Visualizer</h1>
+    
+    <div class="section">
+        <h2>Tokenize Text</h2>
+        <textarea id="input-text" placeholder="Enter text to tokenize"></textarea>
+        <div class="tokenizer-options">
+            <label class="tokenizer-checkbox">
+                <input type="checkbox" name="tokenizer" value="whitespace"> Whitespace
+            </label>
+            <label class="tokenizer-checkbox">
+                <input type="checkbox" name="tokenizer" value="regex"> Regex
+            </label>
+            <label class="tokenizer-checkbox">
+                <input type="checkbox" name="tokenizer" value="bpe"> BPE
+            </label>
+            <label class="tokenizer-checkbox">
+                <input type="checkbox" name="tokenizer" value="hf"> Custom HuggingFace
+            </label>
+            <label class="tokenizer-checkbox">
+                <input type="checkbox" name="tokenizer" value="sp"> Custom SentencePiece
+            </label>
+        </div>
+        <button onclick="tokenize()">Tokenize</button>
+        <div id="results" class="tokenizer-results"></div>
+    </div>
+
+    <div class="section">
+        <h2>Train Tokenizer</h2>
+        <div id="drop-area" class="drop-area">
+            <p>Drag and drop .txt files here or click to select files</p>
+            <input type="file" id="fileInput" accept=".txt" multiple style="display: none;">
+        </div>
+        <p id="file-names"></p>
+        <select id="train-tokenizer">
+            <option value="" disabled selected>Select a tokenizer</option>
+            <option value="whitespace">Whitespace</option>
+            <option value="regex">Regex</option>
+            <option value="bpe">BPE</option>
+            <option value="hf">HuggingFace</option>
+            <option value="sp">SentencePiece</option>
+        </select>
+        <button onclick="train()">Train</button>
+        <div id="train-result"></div>
+    </div>
+
+    <script>
+        function tokenize() {
+            const text = document.getElementById('input-text').value;
+            const tokenizers = Array.from(document.querySelectorAll('input[name="tokenizer"]:checked')).map(el => el.value);
+            
+            axios.post('/tokenize', {
+                text: text,
+                tokenizers: tokenizers
+            })
+            .then(function (response) {
+                const results = document.getElementById('results');
+                results.innerHTML = '';
+                for (const [tokenizer, data] of Object.entries(response.data)) {
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'tokenizer-result';
+                    
+                    const formattedTokens = formatListHorizontal(data.tokens);
+                    const formattedEncoded = formatListHorizontal(data.encoded);
+                    const coloredDecoded = createColoredDecoded(data.decoded);
+                    const frequencyTable = createFrequencyTable(data.frequencies);
+                    
+                    resultDiv.innerHTML = `
+                        <h3>${tokenizer} Tokenizer</h3>
+                        <p class="result-item"><strong>Tokens:</strong></p>
+                        <div class="horizontal-scroll">${formattedTokens}</div>
+                        <p class="result-item"><strong>Encoded:</strong></p>
+                        <div class="horizontal-scroll">${formattedEncoded}</div>
+                        <p class="result-item"><strong>Decoded:</strong></p>
+                        <div class="colored-decoded">${coloredDecoded}</div>
+                        <p class="result-item"><strong>Token Frequencies:</strong></p>
+                        <div class="frequency-table-container">${frequencyTable}</div>
+                    `;
+                    results.appendChild(resultDiv);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+
+        function formatListHorizontal(list) {
+            return JSON.stringify(list).replace(/,/g, ', ');
+        }
+
+        function createFrequencyTable(frequencies) {
+            const sortedFrequencies = Object.entries(frequencies).sort((a, b) => b[1] - a[1]);
+            let tableHTML = `
+                <table class="frequency-table">
+                    <thead>
+                        <tr>
+                            <th>Decoded Token</th>
+                            <th>Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            for (const [token, frequency] of sortedFrequencies) {
+                const displayToken = token === '<unk>' ? '&lt;unk&gt;' : token;
+                tableHTML += `
+                    <tr>
+                        <td>${displayToken}</td>
+                        <td>${frequency}</td>
+                    </tr>
+                `;
+            }
+            
+            tableHTML += `
+                    </tbody>
+                </table>
+            `;
+            
+            return tableHTML;
+        }
+
+
+        function createColoredDecoded(decoded) {
+            return decoded.map(token => {
+                if (token.trim() === '<unk>') {
+                    return `<span class="unk-token">&lt;unk&gt;</span>`;
+                } else {
+                    const color = getRandomColor();
+                    return `<span style="background-color: ${color};">${token}</span>`;
+                }
+            }).join('');
+        }
+
+        function getRandomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            return `hsl(${hue}, 70%, 80%)`;
+        }
+
+        let trainFiles = [];
+
+        function handleFiles(files) {
+            trainFiles = Array.from(files);
+            document.getElementById('file-names').textContent = `Selected files: ${trainFiles.map(f => f.name).join(', ')}`;
+        }
+
+        function train() {
+            if (trainFiles.length === 0) {
+                alert('Please select at least one file.');
+                return;
+            }
+
+            const tokenizer = document.getElementById('train-tokenizer').value;
+            const formData = new FormData();
+            trainFiles.forEach(file => formData.append('files[]', file));
+            formData.append('tokenizer', tokenizer);
+
+            axios.post('/train', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            .then(function (response) {
+                document.getElementById('train-result').innerText = response.data.message;
+            })
+            .catch(function (error) {
+                console.log(error);
+                document.getElementById('train-result').innerText = 'An error occurred during training.';
+            });
+        }
+
+        // Add event listeners for drag and drop functionality
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('fileInput');
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropArea.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropArea.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight(e) {
+                dropArea.classList.add('highlight');
+            }
+
+            function unhighlight(e) {
+                dropArea.classList.remove('highlight');
+            }
+
+            dropArea.addEventListener('drop', handleDrop, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files);
+            }
+
+            dropArea.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', function() {
+                handleFiles(this.files);
+            });
+        });
+    </script>
+</body>
+</html>
