@@ -34,12 +34,12 @@ Tokenizer-Tutorial/
 │
 ├── trained_vocabs/
 │ ├── bpe_vocab.txt
-│ ├── custom_tokenizer.json
+│ ├── hf_vocab.json
 │ ├── regex_vocab_basic.txt
 │ ├── regex_vocab_gpt2.txt
 │ ├── regex_vocab_gpt4.txt
 │ ├── regex_vocab_improved.txt
-│ ├── spm_model.model
+│ ├── sp_vocab.model
 │ └── whitespace_vocab.txt
 │
 ├── app.py
