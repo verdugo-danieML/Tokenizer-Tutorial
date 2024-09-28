@@ -8,8 +8,8 @@ def demonstrate_tokenizer(tokenizer, text):
 
     if isinstance(tokenizer, CustomHFTokenizer):
         encoded = tokenizer.encode(text)
-        tokens = encoded.tokens
-        ids = encoded.ids
+        tokens = tokenizer.tokenize(text)
+        ids = encoded
     else:
         tokens = tokenizer.tokenize(text)
         ids = tokenizer.encode(text)
@@ -30,7 +30,7 @@ def main():
     # Custom HF Tokenizer
     custom_tokenizer = CustomHFTokenizer(vocab_size=10000, min_frequency=2)
     custom_tokenizer.train(corpus_dir)
-    custom_tokenizer.save("custom_tokenizer.json")
+    custom_tokenizer.save("trained_vocabs/hf_vocab.json")
     demonstrate_tokenizer(custom_tokenizer, example_text)
 
     # BERT Tokenizer
