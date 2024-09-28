@@ -9,9 +9,11 @@ Tokenizer-Tutorial/
 │
 ├── data/
 │ └── corpus/
-│ ├── text_1.txt
-│ ├── text_2.txt
-│ └── text_3.txt
+│    ├── sp/
+│    │  └── sp_corpus.txt
+│    ├── text_1.txt
+│    ├── text_2.txt
+│    └── text_3.txt
 │
 ├── src/
 │ ├── init.py
@@ -39,6 +41,7 @@ Tokenizer-Tutorial/
 │ ├── regex_vocab_gpt2.txt
 │ ├── regex_vocab_gpt4.txt
 │ ├── regex_vocab_improved.txt
+│ ├── sp_vocab_en_jp.model
 │ ├── sp_vocab.model
 │ └── whitespace_vocab.txt
 │
