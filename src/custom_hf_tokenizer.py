@@ -1,27 +1,17 @@
-from tokenizers import Tokenizer
-from tokenizers.models import BPE
-from tokenizers.trainers import BpeTrainer
-from tokenizers.pre_tokenizers import Whitespace
-from tokenizers.processors import TemplateProcessing
+from tokenizers import Tokenizer, models, pre_tokenizers, processors, decoders, trainers
 from src.utils import read_corpus
 
 class CustomHFTokenizer:
-    def __init__(self, vocab_size=30000, min_frequency=2):
-        self.tokenizer = Tokenizer(BPE(unk_token="[UNK]"))
-        self.tokenizer.pre_tokenizer = Whitespace()
-        self.trainer = BpeTrainer(
-            vocab_size=vocab_size, 
-            min_frequency=min_frequency,
-            special_tokens=["[UNK]", "[CLS]", "[SEP]", "[PAD]", "[MASK]"]
+    def __init__(self, vocab_size=25000):
+        self.tokenizer = Tokenizer(models.BPE())
+        self.tokenizer.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
+        self.trainer = trainers.BpeTrainer(
+            vocab_size=vocab_size,
+            special_tokens=["<|endoftext|>"],
+            show_progress=True
         )
-        self.tokenizer.post_processor = TemplateProcessing(
-            single="[CLS] $A [SEP]",
-            pair="[CLS] $A [SEP] $B:1 [SEP]:1",
-            special_tokens=[
-                ("[CLS]", 1),
-                ("[SEP]", 2),
-            ],
-        )
+        self.tokenizer.post_processor = processors.ByteLevel(trim_offsets=False)
+        self.tokenizer.decoder = decoders.ByteLevel()
 
     def train(self, corpus_dir):
         corpus = read_corpus(corpus_dir)
